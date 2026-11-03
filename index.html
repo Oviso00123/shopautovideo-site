@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a1a">
+  <title>ShopAutoVideo – Valore dello Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <header class="glass-panel header">
+    <h1>🎬 ShopAutoVideo</h1>
+    <p class="subtitle">Genera il video del Valore dello Shop in un tap</p>
+  </header>
+
+  <main class="container">
+
+    <section class="glass-panel" id="settings-panel">
+      <h2>⚙️ Impostazioni</h2>
+      <div class="settings-grid">
+        <label>Codice creator
+          <input type="text" id="creatorCode" value="malofn" placeholder="es. malofn">
+        </label>
+        <label>Nome canale / creator
+          <input type="text" id="creatorName" value="22Malo_" placeholder="es. 22Malo_">
+        </label>
+        <label>Durata target parlato (secondi)
+          <input type="number" id="targetDuration" value="60" min="20" max="180">
+        </label>
+        <label>Voce TTS
+          <select id="voiceSelect">
+            <option value="Zephyr">Zephyr (calda)</option>
+            <option value="Puck">Puck (energica)</option>
+            <option value="Charon">Charon (profonda)</option>
+            <option value="Kore">Kore (neutra)</option>
+            <option value="Fenrir">Fenrir (maschile)</option>
+          </select>
+        </label>
+        <label>Formato video
+          <select id="videoFormat">
+            <option value="1920x1080">Orizzontale 1920×1080</option>
+            <option value="1080x1920">Verticale 1080×1920</option>
+          </select>
+        </label>
+        <label>Tema colori
+          <select id="themeSelect">
+            <option value="default">Viola/Blu (default)</option>
+            <option value="green">Verde neon</option>
+            <option value="red">Rosso fuoco</option>
+          </select>
+        </label>
+      </div>
+
+      <details class="advanced-settings">
+        <summary>Impostazioni avanzate (pesi e soglie)</summary>
+        <div class="settings-grid">
+          <label>Soglia "COMPRALO SUBITO" (min)
+            <input type="number" id="thresholdTop" value="9" min="0" max="10" step="0.1">
+          </label>
+          <label>Soglia "OTTIMO ACQUISTO" (min)
+            <input type="number" id="thresholdGreat" value="7" min="0" max="10" step="0.1">
+          </label>
+          <label>Peso numero oggetti
+            <input type="number" id="weightItems" value="0.3" min="0" max="1" step="0.05">
+          </label>
+          <label>Peso rarità
+            <input type="number" id="weightRarity" value="0.25" min="0" max="1" step="0.05">
+          </label>
+          <label>Peso collaborazioni
+            <input type="number" id="weightCollab" value="0.2" min="0" max="1" step="0.05">
+          </label>
+          <label>Peso sconto
+            <input type="number" id="weightDiscount" value="0.25" min="0" max="1" step="0.05">
+          </label>
+        </div>
+      </details>
+
+      <details class="advanced-settings">
+        <summary>Testi fissi e skin in arrivo</summary>
+        <label>Testo intro (prima del parlato)
+          <textarea id="introText" rows="2">Ciao ragazzi, benvenuti al Valore dello Shop!</textarea>
+        </label>
+        <label>Testo outro (dopo il parlato)
+          <textarea id="outroText" rows="2">Grazie per aver guardato, iscriviti e usa il codice creator!</textarea>
+        </label>
+        <label>Skin in arrivo (una per riga, data opzionale)
+          <textarea id="upcomingSkins" rows="3" placeholder="Nuova Skin | 2025-12-01&#10;Altra Skin"></textarea>
+        </label>
+        <label>URL fonte skin in arrivo (opzionale)
+          <input type="url" id="upcomingSourceUrl" placeholder="https://esempio.com/skins.json">
+        </label>
+      </details>
+
+      <details class="advanced-settings">
+        <summary>File personalizzati (logo, musica)</summary>
+        <label>Logo (PNG/JPG)
+          <input type="file" id="logoFile" accept="image/*">
+        </label>
+        <label>Musica di sottofondo (MP3/WAV)
+          <input type="file" id="musicFile" accept="audio/*">
+        </label>
+      </details>
+
+      <div class="actions">
+        <button id="saveSettingsBtn" class="glass-btn secondary">💾 Salva impostazioni</button>
+        <button id="testModeBtn" class="glass-btn secondary">🧪 Modalità Test</button>
+      </div>
+    </section>
+
+    <section class="glass-panel" id="main-panel">
+      <h2>🚀 Genera il video</h2>
+      <p class="hint">Premi il bottone: scarica lo shop, calcola i punteggi, scrive il parlato, genera la voce e monta il video.</p>
+      <button id="generateBtn" class="glass-btn primary" style="font-size:1.2rem; padding:1rem 2rem;">
+        🎥 Genera video
+      </button>
+
+      <div id="progressContainer" class="progress-container hidden">
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+        <p id="progressText" class="progress-text">Inizializzazione…</p>
+      </div>
+
+      <div id="logPanel" class="log-panel hidden">
+        <h3>📋 Log</h3>
+        <pre id="logContent"></pre>
+      </div>
+
+      <div id="previewSection" class="preview-section hidden">
+        <h3>Anteprima video</h3>
+        <video id="previewVideo" controls playsinline style="width:100%; border-radius:12px;"></video>
+        <div class="actions">
+          <a id="downloadVideoLink" class="glass-btn secondary" download="video.webm">⬇️ Scarica video</a>
+          <button id="downloadThumbBtn" class="glass-btn secondary">🖼️ Scarica miniatura</button>
+        </div>
+      </div>
+
+      <div id="copySection" class="copy-section hidden">
+        <h3>Testi per YouTube</h3>
+        <label>Titolo
+          <textarea id="outputTitle" rows="2" readonly></textarea>
+        </label>
+        <button id="copyTitleBtn" class="glass-btn small">Copia titolo</button>
+
+        <label>Descrizione
+          <textarea id="outputDescription" rows="4" readonly></textarea>
+        </label>
+        <button id="copyDescBtn" class="glass-btn small">Copia descrizione</button>
+
+        <label>Tag
+          <textarea id="outputTags" rows="2" readonly></textarea>
+        </label>
+        <button id="copyTagsBtn" class="glass-btn small">Copia tag</button>
+      </div>
+
+      <div id="testOutput" class="test-output hidden">
+        <h3>Risultati modalità Test</h3>
+        <pre id="testContent"></pre>
+      </div>
+    </section>
+
+    <footer class="glass-panel footer">
+      <p>Creato per il canale <strong id="footerCreator">22Malo_</strong> – Codice creator: <strong id="footerCode">malofn</strong></p>
+      <p class="small">I dati dello shop provengono da fortnite-api.com. Nessun upload automatico su YouTube.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

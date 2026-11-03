@@ -1,0 +1,305 @@
+/* ============================================================
+   STILE GLASSMORPHISM SCURO
+   Palette definita come variabili CSS.
+   Bottoni glass ispirati a pattern di Uiverse.io.
+   Se vuoi sostituirli con elementi specifici, cerca
+   "glass button" su https://uiverse.io/elements?search=glass+button
+   e incolla il loro CSS/HTML mantenendo l'attribuzione MIT.
+   ============================================================ */
+
+:root {
+  --bg-start: #0a0a1a;
+  --bg-mid: #1a0a2e;
+  --bg-end: #2d1b4e;
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --accent-1: #a0608a;
+  --accent-2: #5c2d7a;
+  --accent-3: #d4886a;
+  --text-primary: #f0f0ff;
+  --text-secondary: #b0b0d0;
+  --green: #4caf50;
+  --yellow: #ffc107;
+  --red: #f44336;
+  --blur: 16px;
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+body.theme-green {
+  --accent-1: #00e676;
+  --accent-2: #00c853;
+  --accent-3: #69f0ae;
+  --bg-start: #0a1a0a;
+  --bg-mid: #0a2e0a;
+  --bg-end: #1b4e1b;
+}
+body.theme-red {
+  --accent-1: #ff5252;
+  --accent-2: #d32f2f;
+  --accent-3: #ff8a80;
+  --bg-start: #1a0a0a;
+  --bg-mid: #2e0a0a;
+  --bg-end: #4e1b1b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-start);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 40%, var(--bg-end) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-top: 1rem;
+}
+.header h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+}
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  gap: 0.25rem;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition);
+  min-height: 48px;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-1);
+}
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255,255,255,0.15);
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.glass-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.glass-btn.primary {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+  border-color: var(--accent-1);
+  box-shadow: 0 6px 24px rgba(160, 96, 138, 0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+}
+.glass-btn.secondary {
+  background: rgba(255, 255, 255, 0.06);
+}
+.glass-btn.small {
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+.glass-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.actions .glass-btn {
+  flex: 1 1 auto;
+}
+
+.advanced-settings {
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 0.75rem;
+}
+.advanced-settings summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.progress-container {
+  margin-top: 1rem;
+}
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.progress-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+.log-panel {
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 0.75rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.log-panel pre {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.preview-section, .copy-section, .test-output {
+  margin-top: 1.5rem;
+}
+.copy-section label {
+  margin-bottom: 0.75rem;
+}
+.copy-section textarea {
+  font-size: 0.8rem;
+  min-height: 60px;
+}
+
+.test-output pre {
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  background: rgba(0,0,0,0.3);
+  padding: 0.75rem;
+  border-radius: 10px;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.footer .small {
+  font-size: 0.7rem;
+  margin-top: 0.25rem;
+  opacity: 0.7;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0.75rem; }
+  .glass-panel { padding: 1rem; }
+  .glass-btn { font-size: 0.9rem; padding: 0.75rem 1rem; }
+}
